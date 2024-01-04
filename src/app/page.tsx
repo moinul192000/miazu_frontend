@@ -29,7 +29,7 @@ export default function Home() {
                   Coming Soon!
                 </h1>
                 <br />
-                <h2 className="lg:leading-tighter text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl xl:text-[3.4rem] 2xl:text-[3.75rem] text-gray-700 dark:text-gray-100">
+                <h2 className="lg:leading-snug text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl xl:text-[3.4rem] 2xl:text-[3.75rem] text-gray-700 dark:text-gray-100">
                   Miazu , Your New Favorite Clothing Store
                 </h2>
                 <br />
@@ -41,7 +41,7 @@ export default function Home() {
               <div className="flex flex-col items-start space-y-4">
                 <Image
                   alt="Clothing illustration"
-                  className="mx-auto aspect-[2/1] overflow-hidden rounded-xl object-cover"
+                  className="mx-auto aspect-[2/1] overflow-hidden rounded-xl object-cover border-2 border-gray-300 dark:border-gray-800"
                   height="400"
                   src="/placeHolder.png"
                   width="550"
@@ -59,14 +59,14 @@ export default function Home() {
                 className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
                 href="https://www.facebook.com/miazubd"
               >
-                <FacebookIcon className="h-8 w-8" />
+                <FacebookIcon />
                 <span className="sr-only">Facebook</span>
               </Link>
               <Link
                 className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
                 href="https://www.instagram.com/miazu_bd/"
               >
-                <InstagramIcon className="h-8 w-8" />
+                <InstagramIcon />
                 <span className="sr-only">Instagram</span>
               </Link>
             </div>
@@ -102,10 +102,10 @@ export default function Home() {
   );
 }
 
-function FacebookIcon(props) {
+function FacebookIcon() {
   return (
     <svg
-      {...props}
+      className="h-8 w-8"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -118,14 +118,14 @@ function FacebookIcon(props) {
     >
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </svg>
-  )
+  );
 }
 
 
-function InstagramIcon(props) {
+function InstagramIcon() {
   return (
     <svg
-      {...props}
+      className="h-8 w-8"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -140,5 +140,5 @@ function InstagramIcon(props) {
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
     </svg>
-  )
+  );
 }
