@@ -200,7 +200,6 @@ const ProductForm = () => {
         </Button>
       </form>
     </Form>
-    {product && <ProductDetails product={product} />}
   </>
   );
 };

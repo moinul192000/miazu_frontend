@@ -1,7 +1,8 @@
+import { auth } from "@/auth";
 import { Navbar } from "@/components/dashboard/nav";
 import { Sidebar } from "@/components/dashboard/sidebar";
-import { getCurrentUser } from "@/lib/auth";
-import { notFound } from "next/navigation";
+import { setAxiosAuthorization } from "@/lib/axios";
+import { notFound, redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -10,11 +11,14 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser();
+  const session = await auth();
 
-  if (!user) {
-    return notFound();
+  setAxiosAuthorization(session?.user.accessToken || null);
+  if (!session) {
+    redirect("/login");
   }
+
+  console.log(session);
 
   return (
     <div className="h-full">

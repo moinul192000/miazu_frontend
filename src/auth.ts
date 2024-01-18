@@ -3,6 +3,7 @@ import type { NextAuthConfig, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { LoginSchema } from "./schemas";
 import { ExtendedUser, LoginResponse, RoleType } from "@/common/types";
+import axios, { setAxiosAuthorization } from "@/lib/axios";
 
 declare module "next-auth" {
   interface User {
@@ -50,23 +51,15 @@ export const {
         if (validatedCredentials.success) {
           try {
             const { email, password } = validatedCredentials.data;
-            const AuthUrl = new URL(`${process.env.BACKEND_URL}/auth/login`);
 
-            const res = await fetch(AuthUrl, {
-              method: "POST",
-              headers: {
-                accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: email,
-                password: password,
-              }),
+            const res = await axios.post("/auth/login", {
+              email,
+              password,
             });
 
-            const response: LoginResponse = await res.json();
+            const response: LoginResponse = res.data;
 
-            if (res.ok && response) {
+            if (response.user) {
               const user: User & {
                 isOAuth: boolean;
                 isTwoFactorEnabled: boolean;
@@ -78,6 +71,7 @@ export const {
                 isOAuth: false,
                 isTwoFactorEnabled: false,
               };
+              setAxiosAuthorization(user.accessToken);
               return user;
             } else {
               throw new Error("Authentication failed");
@@ -91,26 +85,19 @@ export const {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      if (session.user && token) {
-        session.user.id = token.id as string;
-        session.user.name = token.firstName + " " + token.lastName;
-        session.user.role = token.role as RoleType;
-      }
-      return session;
-    },
     async jwt({ token, user }) {
-      if(!token.sub) return token;
-      if(user) {
-        token.id = user.id;
-        token.name = user.firstName + " " + user.lastName;
-        token.picture = user.avatar;
-        token.email = user.email;
-        token.role = user.role;
-        token.accessToken = user.accessToken;
-        token.expiresAt = user.expiresAt;
-      }
-      return token;
+      return {...token, ...user};
+    },
+    async session({ session, token }) {
+      const sanitizedToken = Object.keys(token).reduce((p, c) => {
+        // strip unnecessary properties
+        if (c !== "iat" && c !== "exp" && c !== "jti" && c !== "apiToken") {
+          return { ...p, [c]: token[c] };
+        } else {
+          return p;
+        }
+      }, {});
+      return { ...session, user: sanitizedToken, token: token.accessToken };
     },
   },
 });
