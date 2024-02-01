@@ -30,3 +30,11 @@ export const CreateProductSchema = z.object({
     message: "Description must be at least 10 characters long",
   }),
 });
+
+export const CreateVariantSchema = z.object({
+  productId: z.string().uuid(),
+  sku: z.string(),
+  size: z.string(),
+  color: z.string(),
+  stockLevel: z.number().nonnegative(),
+});

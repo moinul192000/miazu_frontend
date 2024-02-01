@@ -4,16 +4,18 @@ import {
   CardHeader,
   Card,
   CardContent,
+  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { ProductWithVariant } from "@/common/product-types";
+import Link from "next/link";
 
 export default function ProductDetails({ product }: { product: ProductWithVariant }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-10">
-      <Card className="w-full max-w-sm p-10 grid gap-10">
+      <Card className="w-full max-w-screen-md xs:p-5 sm:p-10 grid gap-10">
         <CardHeader className="items-center space-y-0 gap-4 p-0">
           <div className="grid gap-1 text-center">
             <Image
@@ -40,44 +42,36 @@ export default function ProductDetails({ product }: { product: ProductWithVarian
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="p-0 grid gap-4">
-          <Card className="w-full max-w-sm p-10 grid gap-10">
-            <CardHeader className="items-center space-y-0 gap-4 p-0">
+        
+        <CardContent className="p-0 grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2">
+          {product.variants && product.variants.map((variant, index) => (
+            <Card className="w-full max-w-sm p-10 grid gap-10" key={variant.sku}>
+            <CardContent className="items-center space-y-0 gap-4 p-0">
               <div className="grid gap-1 text-center">
-                <CardTitle className="text-lg">Variant 1</CardTitle>
+                <CardTitle className="text-lg">Variant -{index}</CardTitle>
                 <CardDescription className="text-xs">
-                  SKU: SKU-PJ012
+                  SKU: {variant.sku}
                 </CardDescription>
                 <CardDescription className="text-xs">Size: X</CardDescription>
                 <CardDescription className="text-xs">
-                  Color: White
+                  Color: {variant.color}
                 </CardDescription>
                 <CardDescription className="text-xs">
-                  Stock Level: 9
+                  Stock Level: {variant.stockLevel}
                 </CardDescription>
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
-          <Button size="lg">Add Variant</Button>
+          ))}
         </CardContent>
-      </Card>
-      <Card className="w-full max-w-sm p-10 grid gap-10">
-        <CardHeader className="items-center space-y-0 gap-4 p-0">
-          <div className="grid gap-1 text-center">
-            <CardTitle className="text-lg">Add New Variant</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0 grid gap-4">
-          <Input
-            className="mb-4"
-            placeholder="Product ID: e4f8c5a6-8d5a-4f7e-8f5b-9b9a4c1b8a1e"
-          />
-          <Input className="mb-4" placeholder="SKU: SKU-0001" />
-          <Input className="mb-4" placeholder="Size: M" />
-          <Input className="mb-4" placeholder="Color: Red" />
-          <Input className="mb-4" placeholder="Stock Level: 100" />
-          <Button size="lg">Submit</Button>
-        </CardContent>
+
+        <CardFooter className="flex justify-center">
+          <Button size="lg">
+            <Link href="{`/dashboard/products/${productId}/`}">
+              Add Variant
+            </Link>
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );

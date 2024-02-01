@@ -12,7 +12,7 @@ export type ProductVariant = {
   stockLevel?: number;
 };
 
-type Product = {
+export type Product = {
   productCode: string;
   name: string;
   brand: string;

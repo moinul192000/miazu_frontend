@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { Metadata } from "next";
 import Image from "next/image";
 import { columns } from "./column";
+import ProductDataTable from "@/components/product/product-table";
 
 export const metadata: Metadata = {
   title: "Stocks - Dashboard",
@@ -34,7 +35,7 @@ export default async function StocksPage() {
   return (
     <>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
+        <ProductDataTable columns={columns} data={data} />
       </div>
     </>
   );

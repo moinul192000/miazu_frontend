@@ -15,18 +15,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function ProductDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  
   const table = useReactTable({
     data,
     columns,
@@ -71,7 +70,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No Products Found.
               </TableCell>
             </TableRow>
           )}
@@ -87,4 +86,4 @@ export function DataTable<TData, TValue>({
   );
 }
 
-export default DataTable;
+export default ProductDataTable;

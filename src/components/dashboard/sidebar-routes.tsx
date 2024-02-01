@@ -1,9 +1,10 @@
 "use client";
 
 import { BarChart, Compass, DatabaseZap, FilePlus2, Layout, List, PackagePlus } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
+import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
 
 const commonRoutes = [
   {
@@ -35,6 +36,11 @@ const adminRoutes = [
     href: "/dashboard/product/add",
   },
   {
+    icon: Compass,
+    label: "Manage Product",
+    href: "/dashboard/product",
+  },
+  {
     icon: BarChart,
     label: "Manage Order",
     href: "/teacher/analytics",
@@ -42,6 +48,10 @@ const adminRoutes = [
 ];
 
 export const SidebarRoutes = () => {
+  const currentUser = useSession().data?.user;
+  const currentUserRole = currentUser?.role;
+  // const isAdmin = currentUserRole === "ADMIN";
+  // TODO: Remove this line and uncomment the line above
   const isAdmin = true;
 
   const routes = isAdmin ? [...commonRoutes, ...adminRoutes] : commonRoutes;

@@ -3,6 +3,8 @@
 import { ProductVariant, ProductWithVariant } from "@/common/product-types";
 import { ColumnDef } from "@tanstack/react-table";
 import VariantsTable from "./variants-table";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 export const columns: ColumnDef<ProductWithVariant>[] = [
@@ -38,4 +40,29 @@ export const columns: ColumnDef<ProductWithVariant>[] = [
       );
     },
   },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: (info) => {
+      const product = info.row.original;
+      return (
+        <div className="flex items-center md:max-w-5">
+          {/* <Button
+            variant="default"
+            onClick={() => {
+              console.log("Edit product", product);
+            }}
+          >
+            Edit
+          </Button> */}
+          <Button
+            asChild
+            variant="default"
+          >
+            <Link href={`/dashboard/stocks/adjust/${product.productCode}`}>Adjust Stock</Link>
+          </Button>
+        </div>
+      );
+    },
+  }
 ];
