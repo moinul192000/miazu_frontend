@@ -1,6 +1,7 @@
-import {auth} from "@/auth";
+import { auth, signOut } from "@/auth";
 import {
   DEFAULT_LOGIN_REDIRECT_URL,
+  DEFAULT_LOGOUT_REDIRECT_URL,
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
