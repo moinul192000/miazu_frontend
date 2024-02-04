@@ -33,7 +33,6 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  debug: true,
   providers: [
     CredentialsProvider({
       name: "Credentials",

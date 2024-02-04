@@ -10,7 +10,6 @@ async function getProductWithVariantsWithStock(): Promise<z.infer<typeof Product
   if (!session) {
     throw new Error("Not authenticated");
   }
-  console.log("session.user.accessToken", session.user.accessToken);
   setAxiosAuthorization(session.user.accessToken);
 
   try {
